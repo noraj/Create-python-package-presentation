@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Pythons packaging</title>
+
+    <meta name="description" content="How to create a simple python package">
+    <meta name="author" content="Alexandre ZANNI">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="css/highlight/styles/github.css" id="highlight-theme">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- INCLUDE CSS HERE -->
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides"><section id="python-packaging" class="slide" data-has-notes="false">
+<h2>Pythons packaging</h2><p>How to create a simple python package</p>
+<p><img src="images/python-icon.png" alt="python logo"></p>
+</section>
+
+<section id="goal" class="slide" data-has-notes="false">
+<h2>What are we going to do?</h2><ol>
+<li>Create a package (with a setup.py script)</li>
+<li>Make it available on PyPI</li>
+</ol>
+</section>
+
+<section id="usage" class="slide" data-has-notes="false">
+<h2>What does this do?</h2><ol>
+<li>Allow us to easily install a python script from a distribution<pre><code>python3 setup<span class="hljs-selector-class">.py</span> install
+</code></pre></li>
+<li>Or from Internet<pre><code>pip install <span class="hljs-keyword">package</span><span class="hljs-number">_n</span>ame
+</code></pre></li>
+</ol>
+</section>
+
+<section id="tools" class="slide" data-has-notes="false">
+<h2>What are we going to use?</h2><ul>
+<li><a href="https://www.python.org/download/releases/3.0/">Python 3</a> (it&#39;s nearly the same for python 2)</li>
+<li><a href="https://docs.python.org/3/library/distutils.html">distutils</a> (packaging framework)</li>
+<li><a href="https://pypi.python.org/pypi/setuptools">setuptools</a> (Python Packaging Authority enhenced alternative)</li>
+<li><a href="https://pypi.python.org/">PyPI</a> (Python Package Index)</li>
+</ul>
+</section>
+
+<section id="chapter-directory_structure" class="chapter">
+<section id="directory_structure" class="slide cover"><h1>Directory_Structure</h1></section>
+<section id="directory_structure-simple_mode" class="slide" data-has-notes="false">
+<h2>Simple mode</h2><p>With a very simple tool that have <strong>only 1 python script file</strong>, the <code>.py</code> script file can be placed under the root folder.</p>
+<pre><code>└── tool-name
+    ├── tool-name<span class="hljs-selector-class">.py</span>
+    ├── LICENCE
+    ├── README<span class="hljs-selector-class">.md</span>
+    └── setup.py
+</code></pre>
+</section>
+
+<section id="directory_structure-lib_mode" class="slide" data-has-notes="false">
+<h2>Lib mode</h2><p>But with a more complex tool with <strong>several python script files</strong>, <code>.py</code> script files must be place under a &quot;lib&quot; folder.</p>
+<pre><code>└── tool-name
+    ├── tool-name
+    │   ├── __init__<span class="hljs-selector-class">.py</span>
+    │   ├── script<span class="hljs-selector-class">.py</span>
+    │   └── main<span class="hljs-selector-class">.py</span>
+    ├── LICENCE
+    ├── README<span class="hljs-selector-class">.md</span>
+    └── setup.py
+</code></pre><p>And of course a <code>__init__.py</code> will be needed.</p>
+</section>
+</section>
+
+<section id="chapter-setup-script" class="chapter">
+<section id="setup-script" class="slide cover"><h1>Setup-Script</h1></section>
+<section id="setup-script-description" class="slide" data-has-notes="false">
+<h2>Description</h2><ul>
+<li>The distutils setup script is a python script!</li>
+<li>Keep it simple to avoid bug happening, exoticism is not needed.</li>
+<li>It describes project&#39;s metadatas</li>
+</ul>
+</section>
+
+<section id="setup-script-first-line" class="slide" data-has-notes="false">
+<h2>First line</h2><p>First line of distutils setup script will always be the same:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> distutils.core <span class="hljs-keyword">import</span> setup
+</code></pre>
+<p>This will import <code>setup()</code> function that will take some parameters.</p>
+</section>
+
+<section id="setup-script-minimal_parameters" class="slide" data-has-notes="false">
+<h2>Minimal parameters</h2><p>Only 3 field are required:</p>
+<ul>
+<li><strong>name</strong>: must be unique to publish on PyPI</li>
+<li><strong>version</strong>: keeps track of different releases</li>
+<li><strong>url</strong>: the home page address of the project (ex: github, bitbucket, website, PyPI page, ...)</li>
+</ul>
+</section>
+
+<section id="setup-script-more-basic-parameters" class="slide" data-has-notes="false">
+<h2>More basic parameters (1/3)</h2><ul>
+<li><strong>description</strong>: one-line summary of the project</li>
+<li><strong>long_description</strong>: multi-line string in <a href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> (PyPI will converts it to HTML and displays it on the package page)</li>
+<li><strong>author</strong>: author name</li>
+<li><strong>author_email</strong>: author email</li>
+</ul>
+</section>
+
+<section id="setup-script-more-basic-parameters" class="slide" data-has-notes="false">
+<h2>More basic parameters (2/3)</h2><ul>
+<li><strong>maintainer</strong>: maintainer name</li>
+<li><strong>maintainer_email</strong>: maintainer email</li>
+<li><strong>license</strong>: license name</li>
+<li><strong>keywords</strong>: keywords</li>
+<li><strong>classifiers</strong>: list of PyPI categories (more details in the next slides)</li>
+</ul>
+</section>
+
+<section id="setup-script-more-basic-parameters" class="slide" data-has-notes="false">
+<h2>More basic parameters (3/3)</h2><p>An a vey important field in order to differentiate the source code and all the others things around like documentation:</p>
+<ul>
+<li><strong>py_modules</strong> or <strong>packages</strong>: describes where python source code is<ul>
+<li><strong>py_modules</strong>: for an unique file python script</li>
+<li><strong>packages</strong>: for a multi-file python script</li>
+</ul>
+</li>
+</ul>
+<p>Additional meta-data can be found in the <a href="https://docs.python.org/3/distutils/setupscript.html#additional-meta-data">Python Doc</a>.</p>
+<p>There is also a <a href="https://www.python.org/dev/peps/pep-0314/">PEP 314</a> describing a mechanism for adding metadata to Python packages.</p>
+</section>
+
+<section id="setup-script-classifying-the-package" class="slide" data-has-notes="false">
+<h2>Classifying the package</h2><p>PyPI (formerly Python Package Index) contains thousands of Python libraries and tools. So a proper classification of metada will allow people to easily find the package.</p>
+<p>To classify the package, use the <code>classifiers</code> parameter of the <code>setup() function</code>. This contains a list of strings.</p>
+<p>All classifier strings must match with <a href="http://pypi.python.org/pypi?:action=list_classifiers">PyPi classifiers list</a>.</p>
+</section>
+
+<section id="setup-script-setup-example" class="slide" data-has-notes="false">
+<h2>Setup script example</h2><pre><code class="lang-python"><span class="hljs-keyword">from</span> distutils.core <span class="hljs-keyword">import</span> setup
+setup(
+    name = <span class="hljs-string">"chardet"</span>,
+    packages = [<span class="hljs-string">"chardet"</span>],
+    version = <span class="hljs-string">"1.0.2"</span>,
+    description = <span class="hljs-string">"Universal encoding detector"</span>,
+    author = <span class="hljs-string">"Mark Pilgrim"</span>,
+    author_email = <span class="hljs-string">"mark@diveintomark.org"</span>,
+    url = <span class="hljs-string">"http://chardet.feedparser.org/"</span>,
+    download_url = <span class="hljs-string">"http://chardet.feedparser.org/download/python3-chardet-1.0.1.tgz"</span>,
+    keywords = [<span class="hljs-string">"encoding"</span>, <span class="hljs-string">"i18n"</span>, <span class="hljs-string">"xml"</span>],
+    classifiers = [
+        <span class="hljs-string">"Programming Language :: Python"</span>,
+        <span class="hljs-string">"Programming Language :: Python :: 3"</span>,
+        <span class="hljs-string">"Development Status :: 4 - Beta"</span>,
+        <span class="hljs-string">"Environment :: Other Environment"</span>,
+        <span class="hljs-string">"Intended Audience :: Developers"</span>,
+        <span class="hljs-string">"License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)"</span>,
+        <span class="hljs-string">"Operating System :: OS Independent"</span>,
+        <span class="hljs-string">"Topic :: Software Development :: Libraries :: Python Modules"</span>,
+        <span class="hljs-string">"Topic :: Text Processing :: Linguistic"</span>,
+        ],
+    long_description = <span class="hljs-string">"""\
+Universal character encoding detector
+-------------------------------------
+
+Detects
+ - ASCII, UTF-8, UTF-16 (2 variants), UTF-32 (4 variants)
+ - Big5, GB2312, EUC-TW, HZ-GB-2312, ISO-2022-CN (Traditional and Simplified Chinese)
+ - EUC-JP, SHIFT_JIS, ISO-2022-JP (Japanese)
+ - EUC-KR, ISO-2022-KR (Korean)
+ - KOI8-R, MacCyrillic, IBM855, IBM866, ISO-8859-5, windows-1251 (Cyrillic)
+ - ISO-8859-2, windows-1250 (Hungarian)
+ - ISO-8859-5, windows-1251 (Bulgarian)
+ - windows-1252 (English)
+ - ISO-8859-7, windows-1253 (Greek)
+ - ISO-8859-8, windows-1255 (Visual and Logical Hebrew)
+ - TIS-620 (Thai)
+
+This version requires Python 3 or later; a Python 2 version is available separately.
+"""</span>
+)
+</code></pre>
+</section>
+</section>
+
+<section id="chapter-manifest" class="chapter">
+<section id="manifest" class="slide cover"><h1>Manifest</h1></section>
+<section id="manifest-manifest" class="slide" data-has-notes="false">
+<h2>Specifying additional files with a Manifest (1/2)</h2><p>By default, Distutils will only include the following files in the release package:</p>
+<ul>
+<li>README.txt</li>
+<li>setup.py</li>
+<li>files listed in <code>packages</code> or <code>py_modules</code> parameters</li>
+</ul>
+<p>So to include a <code>LICENCE</code> file, a <code>NOTICE</code> file, use a different file extension like a <code>README.md</code> or <code>docs/</code> documentation folder, a Manifest file will be needed.</p>
+</section>
+
+<section id="manifest-manifest" class="slide" data-has-notes="false">
+<h2>Specifying additional files with a Manifest (2/2)</h2><p>The Manifest file is called <code>MANIFEST.in</code>, placed in the project&#39;s root directory. This is not a python script. It allows to include or exclude files and directories.</p>
+<pre><code>include README<span class="hljs-selector-class">.md</span>
+recursive-include docs *<span class="hljs-selector-class">.html</span> *.css
+</code></pre><p>It maintains the directory structure.</p>
+<p>Manifest <a href="http://docs.python.org/3.1/distutils/sourcedist.html#manifest">format</a> and <a href="http://docs.python.org/3.1/distutils/commandref.html#sdist-cmd">commands</a>.</p>
+</section>
+</section>
+
+<section id="setup.cfg" class="slide" data-has-notes="false">
+<h2>Setup.cfg</h2><p><code>setup.cfg</code> is a powerful tool that can <a href="https://docs.python.org/3/distutils/configfile.html">do a lot</a>  but here we only need it because we&#39;re using a markdown readme file. Because Distutils only check for <code>README</code> and <code>README.txt</code>.</p>
+<pre><code><span class="hljs-section">[metadata]</span>
+<span class="hljs-attr">description-file</span> = README.md
+</code></pre>
+</section>
+
+<section id="setup-checking" class="slide" data-has-notes="false">
+<h2>Checking the setup script</h2><p>Distutils has a built-in validation command:</p>
+<pre><code>python3 setup.py<span class="hljs-built_in"> check
+</span>running check
+</code></pre>
+</section>
+
+<section id="creating-source-distribution" class="slide" data-has-notes="false">
+<h2>Creating a source distribution</h2><p>The minimum is too build a source distribution containing the source code, the setup script, the README file and additional files that come with the MANIFEST.</p>
+<pre><code>python3 setup<span class="hljs-selector-class">.py</span> sdist
+</code></pre><p>This will create a <code>dist/</code> folder in your project directory and a <code>package_name.tar.gz</code> archive inside it (or a <code>.zip</code> for Windows users).</p>
+</section>
+
+<section id="chapter-creating_dumb_built_distributions" class="chapter">
+<section id="creating_dumb_built_distributions" class="slide cover"><h1>Creating_dumb_built_distributions</h1></section>
+<section id="creating_dumb_built_distributions-rpm" class="slide" data-has-notes="false">
+<h2>Creating dumb built distributions (1/2)</h2><p><a href="https://docs.python.org/3.1/distutils/builtdist.html#creating-rpm-packages">Python docs</a></p>
+<p><strong>RPM packages</strong></p>
+<pre><code>python setup<span class="hljs-selector-class">.py</span> bdist_rpm
+</code></pre><p>or</p>
+<pre><code>python setup<span class="hljs-selector-class">.py</span> bdist --formats=rpm
+</code></pre>
+</section>
+
+<section id="creating_dumb_built_distributions-windows_installer" class="slide" data-has-notes="false">
+<h2>Creating dumb built distributions (2/2)</h2><p><strong>Windows Installers</strong></p>
+<pre><code>python setup<span class="hljs-selector-class">.py</span> bdist_wininst
+</code></pre><p>or</p>
+<pre><code>python setup<span class="hljs-selector-class">.py</span> bdist --formats=wininst
+</code></pre>
+</section>
+</section>
+
+<section id="chapter-submit-to-pypi" class="chapter">
+<section id="submit-to-pypi" class="slide cover"><h1>Submit-to-PyPI</h1></section>
+<section id="submit-to-pypi-pypi" class="slide" data-has-notes="false">
+<h2>PyPI</h2><p>PyPI is the Python Package Index</p>
+<ul>
+<li>Easy distribution</li>
+<li>Doesn&#39;t need cloning and manual building</li>
+</ul>
+<pre><code>pip <span class="hljs-keyword">install</span> something
+</code></pre>
+</section>
+
+<section id="submit-to-pypi-02a-pypirc" class="slide" data-has-notes="false">
+<h2>Create a <code>.pypirc</code> configuration file (1/2)</h2><p>To make life easier when uploading packages, create a <code>~/.pypirc</code> file:</p>
+<pre><code class="lang-ini">[distutils]
+index-servers =
+  pypi
+  pypitest
+
+[pypi]
+repository=https://pypi.python.org/pypi
+username=your_username
+password=your_password
+
+[pypitest]
+repository=https://testpypi.python.org/pypi
+username=your_username
+password=your_password
+</code></pre>
+</section>
+
+<section id="submit-to-pypi-02b-pypirc" class="slide" data-has-notes="false">
+<h2>Create a <code>.pypirc</code> configuration file (2/2)</h2><p>Passwords can be omitted in <code>~/.pypirc</code> and written when uploading.</p>
+<p><strong>Warning</strong>: in Python 3 <code>%</code> must be escaped in password by doubling them.
+<strong>Info</strong>: Spaces don&#39;t need to be escaped, there must be not quote.</p>
+</section>
+
+<section id="submit-to-pypi-create_account" class="slide" data-has-notes="false">
+<h2>Create an account</h2><p>Register on the PyPI <a href="http://pypi.python.org/pypi?%3Aaction=register_form" title="PyPI Live">Live</a> or <a href="http://testpypi.python.org/pypi?%3Aaction=register_form" title="PyPI Test">Test</a> user registration page.</p>
+</section>
+
+<section id="submit-to-pypi-register-and-upload" class="slide" data-has-notes="false">
+<h2>Register the project and upload the distribution</h2><p>Register the package project:</p>
+<pre><code>python <span class="hljs-built_in">setup</span>.py <span class="hljs-keyword">register</span> -r pypi
+</code></pre><p>Upload the package distribution:</p>
+<pre><code>python setup<span class="hljs-selector-class">.py</span> sdist upload -r pypi
+</code></pre><p>To make sure the package is set up correctly, package can be upload on PyPI&#39;s test server first:</p>
+<pre><code>python setup<span class="hljs-selector-class">.py</span> register -r pypitest
+python setup<span class="hljs-selector-class">.py</span> sdist upload -r pypitest
+</code></pre>
+</section>
+</section>
+
+<section id="git" class="slide" data-has-notes="false">
+<h2>Git tips</h2><p>If the package code source is hosted on a Git repository:</p>
+<ul>
+<li>a <code>.gitignore</code> can be added (ex: GitHub Python <a href="https://github.com/github/gitignore/blob/master/Python.gitignore">gitignore</a> to avoid uploading <code>dist/</code> or <code>build/</code> folders to the remote Git repository.</li>
+<li>If the Git remote repository is GitHub <code>git tag 0.1 -m &quot;message&quot;</code> &amp; <code>git push --tags origin master</code> can be used to generate and host package</li>
+</ul>
+<p><strong>Warning</strong>: To use <code>git tag</code> on GitHub there must be only one tool per repository (no multi-tools repository).</p>
+</section>
+
+<section id="references" class="slide" data-has-notes="false">
+<h2>References</h2><ul>
+<li><a href="http://www.diveintopython3.net/packaging.html">Dive in python 3</a></li>
+<li>Distutils doc from Python Docs for <a href="https://docs.python.org/3/distutils/setupscript.html#additional-meta-data">Setup Script</a> and <a href="https://docs.python.org/3.1/distutils/packageindex.html">Package Index</a></li>
+<li><a href="http://the-hitchhikers-guide-to-packaging.readthedocs.io/en/latest/quickstart.html">The Hitchhiker&#39; Guide to Packaging from ReadTheDocs</a></li>
+<li><a href="http://peterdowns.com/posts/first-time-with-pypi.html">How to submit a package to PyPI from Peter Downs Blog</a></li>
+</ul>
+</section>
+
+<section id="presentation" class="slide" data-has-notes="false">
+<h2>Presentation</h2><p>Presentation:</p>
+<ul>
+<li>Written in <a href="https://daringfireball.net/projects/markdown/basics">Markdown</a></li>
+<li>Served by <a href="http://lab.hakim.se/reveal-js/#/">Reveal.js</a></li>
+<li>Generated with <a href="https://github.com/byteclubfr/prez" title="A Reveal.js slideshow generator">prez</a></li>
+</ul>
+<p>Author:</p>
+<ul>
+<li>Alexandre ZANNI</li>
+</ul>
+</section></div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: Reveal.getQueryHash().transition || 'slide', // none/fade/slide/convex/concave/zoom
+
+      // Optional reveal.js plugins
+      dependencies: [
+        //{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        //{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        //{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true },
+        { src: 'plugin/notes/notes.js', async: true }
+      ]
+    });
+    </script>
+
+    <!-- INCLUDE JS HERE -->
+
+  </body>
+</html>
