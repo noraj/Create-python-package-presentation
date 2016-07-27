@@ -6,7 +6,7 @@ How to create a simple python package
 
 **Note**: This is only the sources of the slideshow.
 
-Slideshow is avaible [here](https://noraj1337.github.io/Create-python-package-presentation/).
+Slideshow is avaible [here][slideshow].
 
 **Presentation**:
 - Written in [Markdown][markdown]
@@ -15,3 +15,9 @@ Slideshow is avaible [here](https://noraj1337.github.io/Create-python-package-pr
 
 **Author**:
 - Alexandre ZANNI
+
+[slideshow]:https://noraj1337.github.io/Create-python-package-presentation/
+[revealjs]:http://lab.hakim.se/reveal-js/#/
+[markdown]:https://daringfireball.net/projects/markdown/basics
+[prez]:https://github.com/byteclubfr/prez "A Reveal.js slideshow generator"
+
