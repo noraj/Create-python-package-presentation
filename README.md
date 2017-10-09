@@ -1,3 +1,5 @@
+**Warning**: Some elements of this presentation are outdate!
+
 ## Create python package slideshow
 
 How to create a simple python package
