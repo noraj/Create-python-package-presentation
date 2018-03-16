@@ -18,7 +18,7 @@ Slideshow is avaible [here][slideshow].
 **Author**:
 - Alexandre ZANNI
 
-[slideshow]:https://noraj1337.github.io/Create-python-package-presentation/
+[slideshow]:https://noraj.github.io/Create-python-package-presentation/
 [revealjs]:http://lab.hakim.se/reveal-js/#/
 [markdown]:https://daringfireball.net/projects/markdown/basics
 [prez]:https://github.com/byteclubfr/prez "A Reveal.js slideshow generator"
