@@ -1,4 +1,4 @@
-**Warning**: Some elements of this presentation are outdate!
+**Warning**: Some elements of this presentation are outdated!
 
 ## Create python package slideshow
 
