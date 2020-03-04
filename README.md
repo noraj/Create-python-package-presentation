@@ -8,7 +8,7 @@ How to create a simple python package
 
 **Note**: This is only the sources of the slideshow.
 
-Slideshow is avaible [here][slideshow].
+Slideshow is available [here][slideshow].
 
 **Presentation**:
 - Written in [Markdown][markdown]
